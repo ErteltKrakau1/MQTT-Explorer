@@ -1,0 +1,9 @@
+<div>
+  <div>Topic</div>
+  <input (input)="onTopicChanged($event)" >
+  <div>Nachricht</div>
+  <input (input)="onPayloadChanged($event)">
+  <button (click)="publish()">Publish</button>
+  <div>History</div>
+</div>
+

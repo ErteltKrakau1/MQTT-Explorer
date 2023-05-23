@@ -1,0 +1,8 @@
+<div style="display: flex; flex-direction: column;">
+  <div>MQTT Broker</div>
+  <input (change)="onHostUrlChanged($event)" (input)="onHostUrlChanged($event)"value="{{hostUrl}}">
+  <button (click)="connect()">Verbindung herstellen</button>
+  <button (click)="disconnect() ">Verbindung beenden</button>
+  <button>Refresh</button>
+  <div>Status</div>
+</div>
