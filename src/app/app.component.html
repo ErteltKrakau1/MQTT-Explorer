@@ -1,2 +1,37 @@
-<app-header class="header"></app-header>
-<router-outlet></router-outlet>
+<div style="height: 100%; width: 100%;">
+  <h1 class="title">MQTT-EXPLORER</h1>
+
+<div class="content">
+  <div>
+    <h1 (click)="toggleBroker()">
+      Broker
+      <div class="status-indicator" [ngClass]="{ connected: isConnected, disconnected: !isConnected }"></div>
+      <span class="toggle-arrow" [class.rotated]="!isBrokerExpanded"></span>
+    </h1>
+    <div *ngIf="isBrokerExpanded">
+      <app-broker></app-broker>
+    </div>
+  </div>
+  <div>
+    <h1 (click)="toggleSubscribe()">
+      Subscribe
+      <span class="toggle-arrow" [class.rotated]="!isSubscribeExpanded"></span>
+    </h1>
+    <div *ngIf="isSubscribeExpanded">
+      <app-subscribe></app-subscribe>
+    </div>
+  </div>
+  <div>
+    <h1 (click)="togglePublish()">
+      Publish
+      <span class="toggle-arrow" [class.rotated]="!isPublishExpanded"></span>
+    </h1>
+    <div *ngIf="isPublishExpanded">
+      <app-publish></app-publish>
+    </div>
+  </div>
+</div>
+</div>
+
+
+

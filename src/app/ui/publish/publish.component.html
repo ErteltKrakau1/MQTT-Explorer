@@ -1,9 +1,19 @@
-<div>
-  <div>Topic</div>
-  <input (input)="onTopicChanged($event)" >
-  <div>Nachricht</div>
-  <input (input)="onPayloadChanged($event)">
-  <button (click)="publish()">Publish</button>
-  <div>History</div>
+<div class="publishComponent" [class.disabled]="!isConnected">
+  <div class="row">
+    <div class="leftContainer">
+      <div>
+        <div>Topic</div>
+        <input  class="input" (input)="onTopicChanged($event)">
+        <div>Message</div>
+        <textarea class="payload input" (input)="onPayloadChanged($event)"></textarea>
+        <button (click)="publish()">Publish</button>
+      </div>
+    </div>
+    <div class="rightContainer" style="width: 100%;">
+        <h2 style="text-align: center; text-decoration: underline" >messages</h2>
+        <div *ngFor="let message of publishedMessages">
+          <button class="message">{{ message.destinationName + ': ' + message.payloadString}}</button>
+        </div>
+    </div>
+  </div>
 </div>
-

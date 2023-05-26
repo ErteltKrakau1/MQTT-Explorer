@@ -1,0 +1,128 @@
+.hostInput {
+  flex-grow: 1;
+}
+
+.addHost {
+  width: 100%;
+  display: flex;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+}
+
+.confirm-button {
+  margin-top: 10px;
+}
+
+.notDeletable {
+  color: grey;
+}
+
+
+.title {
+  font-size: calcHeight(50);
+  font-weight: bold;
+}
+
+.host-button {
+  width: 100%;
+  height: 50px;
+  text-align: left;
+  margin: 0;
+  border: 0;
+  padding: 0 0 0 10px;
+  background-color: #f2f2f2;
+}
+.host-button.active,
+.host-button.active:hover {
+  background-color: #e5e5e5;
+}
+
+.active{
+  background-color: #e5e5e5;
+}
+
+.addRemoveHostButton {
+  margin-top: 20px;
+}
+
+.hosts {
+  overflow: auto;
+}
+
+.clientIdContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+.connectButton{
+  height: 30px;
+  width: 100px;
+  margin: 10px;
+}
+.connect{
+  background-color: green;
+}
+.disconnect{
+  background-color: red;
+}
+.button-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.rightContainer {
+  padding-left: 20px;
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+}
+.deleteButton {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.refreshButton {
+  margin-left: 2px;
+  height: 31px;
+  width: 31px;
+  position: relative;
+}
+
+.refreshButton::after {
+  font-size: 20px;
+  content: "\21BB";
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+}
+.input{
+  height: 25px;
+  width: 80%;
+  overflow: auto;
+}

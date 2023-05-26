@@ -1,1 +1,79 @@
-/* You can add global styles to this file, and also import other style files */
+$fontColor: #636363;
+
+* {
+  --defaultHeight: 1080;
+  --defaultWidth: 1920;
+}
+
+@function calcHeight($height : number) {
+  @return calc(#{$height} / var(--defaultHeight) * 100vh);
+}
+
+@function calcWidth($width : number) {
+  @return calc(#{$width} / var(--defaultWidth) * 100vw);
+}
+
+
+body {
+  height: 100vh;
+  width: 100vw;
+  padding:0;
+
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+
+.leftContainer {
+  width: 30%;
+ // height: 100%;
+  border-right: #636363 dotted;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-right: 20px;
+}
+
+.componentContainer {
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  height: 400px;
+  overflow: auto;
+}
+.flexDirectionColumn{
+  display: flex;
+  flex-direction: column;
+}
+.flexDirectionRow{
+  display: flex;
+  flex-direction: row;
+}
+.input{
+  border-color: #ccc
+}
+
+@media screen and (orientation: landscape) {
+  * {
+    --defaultHeight: 1080;
+    --defaultWidth: 1920;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  * {
+    --defaultHeight: 1920;
+    --defaultWidth: 1080;
+  }
+}

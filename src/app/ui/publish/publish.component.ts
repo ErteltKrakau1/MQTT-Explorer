@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { MqttService } from 'src/app/services/mqtt.service';
+import {Component} from '@angular/core';
+import {MqttService} from 'src/app/services/mqtt.service';
+import {Message} from "paho-mqtt";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-publish',
@@ -9,23 +11,34 @@ import { MqttService } from 'src/app/services/mqtt.service';
 export class PublishComponent {
   topic: string = '';
   payload: string = '';
-
+  publishedMessagesChanged$ : Subscription;
+  publishedMessages: Message[] = [];
+  isConnected : boolean = false;
+  isConnectedChanged$ : Subscription;
 
   constructor(public mqttService: MqttService) {
+    this.publishedMessagesChanged$ = this.mqttService.getPublishedMessagesChanged().subscribe(m => this.onPublishedMessagesChanged(m))
+    this.isConnectedChanged$ = this.mqttService.isConnectedChanged().subscribe(newValue => this.isConnectedChanged(newValue));
+
+  }
+  private isConnectedChanged(newValue : boolean): void{
+    this.isConnected = newValue;
   }
 
-  publish() {
+  public publish(): void {
     this.mqttService.sendMessage(this.topic, this.payload);
   }
 
 
-  onTopicChanged($event: Event) {
-    const newValue = ($event.target as HTMLInputElement).value;
-    this.topic = newValue;
+  public onTopicChanged($event: Event): void {
+    this.topic = ($event.target as HTMLInputElement).value;
   }
 
-  onPayloadChanged($event: Event) {
-    const newValue = ($event.target as HTMLInputElement).value;
-    this.payload = newValue;
+  public onPayloadChanged($event: Event): void {
+    this.payload = ($event.target as HTMLInputElement).value;
+  }
+
+  private onPublishedMessagesChanged(m: Paho.MQTT.Message): void {
+    this.publishedMessages.push(m);
   }
 }

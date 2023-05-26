@@ -1,8 +1,54 @@
-<div style="display: flex; flex-direction: column;">
-  <div>MQTT Broker</div>
-  <input (change)="onHostUrlChanged($event)" (input)="onHostUrlChanged($event)"value="{{hostUrl}}">
-  <button (click)="connect()">Verbindung herstellen</button>
-  <button (click)="disconnect() ">Verbindung beenden</button>
-  <button>Refresh</button>
-  <div>Status</div>
+<div class="componentContainer">
+  <div class="row">
+    <div class="leftContainer">
+      <span style="font-size: 30px;">Host</span>
+      <div *ngFor="let host of testHosts" class="host-buttons">
+        <button (click)="onHostChosen($event)" class="host-button"
+                [class.active]="host === activeButton">{{ host }}</button>
+
+      </div>
+      <button (click)="addNewHost()" class="addRemoveHostButton">add host</button>
+
+      <div class="popup-overlay" *ngIf="showAddHostPopup">
+        <div class="popup-container">
+          <button class="close-button" (click)="closeAddHostPopup()">X</button>
+
+          <h2>MQTT-Broker</h2>
+          <input (input)="updateNewHost($event)" style="margin-right: 5px;">
+          <button class="confirm-button" (click)="confirmAddHost()">add</button>
+        </div>
+      </div>
+    </div>
+    <div class="rightContainer">
+      <div class="button-container">
+        <button class="connectButton connect" (click)="connect()" [class.disabled]="isConnected">Connect</button>
+        <button class="connectButton disconnect" (click)="disconnect()" [class.disabled]="!isConnected">Disconnect
+        </button>
+      </div>
+      <div>
+        <div class="flexDirectionColumn">
+          <span>Client ID</span>
+          <div class="flexDirectionRow clientIdContainer">
+            <input class="clientIdInput" [disabled]="isConnected" (input)="onClientIdChanged($event)" value="{{mqttService.getClientId()}}">
+            <button class="refreshButton" (click)="generateNewClientId()"></button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="display: flex; flex-direction: column">
+          <span>Broker Url</span>
+          <input class="input"
+            [disabled]="(selectedHost === testHosts[0]  || selectedHost === testHosts[1] ) ||(isConnected && (selectedHost === testHosts[0]  || selectedHost === testHosts[1]) )"
+            value="{{mqttService.getHostUrl()}}">
+        </div>
+      </div>
+
+      <button (click)="onHostToDeleteChosen()"
+              [disabled]="(selectedHost === testHosts[0]  || selectedHost === testHosts[1] ) ||(isConnected && (selectedHost === testHosts[0]  || selectedHost === testHosts[1]) )"
+              class="deleteButton">delete
+      </button>
+    </div>
+  </div>
 </div>
+
+

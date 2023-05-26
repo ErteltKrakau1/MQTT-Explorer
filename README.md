@@ -1,3 +1,9 @@
+
+Projekt starten: in dist/mqtt-explorer Webserver mit " python3 -m http.server" starten
+ 
+python3 -V Python 3.10.6
+
+
 # MqttExplorer
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.

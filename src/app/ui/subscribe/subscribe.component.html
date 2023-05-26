@@ -1,6 +1,35 @@
-<div>
-  <div>Topic</div>
-  <input>
-  <button>Subscribe</button>
-  <div>History</div>
+<div class="componentContainer" [class.disabled]="!isConnected">
+  <div class="row">
+    <div class="leftContainer">
+      <div>Topic</div>
+      <div class="dropdown">
+        <input class="topicInput input" (input)="onTopicChanged($event)" data-toggle="collapse" data-target="#publishedTopicsList" (click)="toggleTopicsList()">
+        <div id="publishedTopicsList" class="collapse">
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let topic of publishedTopics" (click)="onPublishedTopicChosen($event)">{{ topic }}</li>
+          </ul>
+        </div>
+      </div>
+      <button (click)="subscribe()">Subscribe</button>
+
+      <div>
+        <div class="topicList">
+          <div *ngFor="let topic of topics" class="topic">
+            <button class="topicButton" [class.active]="isActive">{{ topic }}
+              <button class="unsubscribeButton" *ngIf="isSubscribedToTopic(topic)" (click)="unsubscribe($event)">Unsubscribe</button>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rightContainer">
+    <div class="payloads">
+      <div *ngIf="selectedTopic" class="messages">
+        <div *ngFor="let message of messages" class="message">
+          {{ message.payloadString }}
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 </div>

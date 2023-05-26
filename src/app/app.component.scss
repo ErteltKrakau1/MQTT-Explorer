@@ -1,6 +1,40 @@
 .header{
   height: 50px;
-  background-color: grey;
   width: 100%;
   display: block;
+}
+.toggle-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid #000;
+  margin-left: 10px;
+  transition: transform 0.3s;
+}
+
+.rotated {
+  transform: rotate(-90deg);
+}
+.title{
+  text-align: center;
+  font-size: calcHeight(50);
+}
+.content{
+  margin-left: 200px;
+  margin-right: 200px;
+}
+.status-indicator {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.connected {
+  background-color: green;
+}
+
+.disconnected {
+  background-color: red;
 }
