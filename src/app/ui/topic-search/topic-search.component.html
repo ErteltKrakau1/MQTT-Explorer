@@ -1,0 +1,6 @@
+<div class="topic-search">
+  <input type="text" (click)="showTopics()" [(ngModel)]="searchTerm" (input)="filterTopics()" />
+  <ul *ngIf="showDropdown">
+    <li *ngFor="let topic of filteredTopics" (click)="selectTopic(topic)">{{ topic }}</li>
+  </ul>
+</div>

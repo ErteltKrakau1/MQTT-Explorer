@@ -2,34 +2,35 @@
   <div class="row">
     <div class="leftContainer">
       <div>Topic</div>
-      <div class="dropdown">
-        <input class="topicInput input" (input)="onTopicChanged($event)" data-toggle="collapse" data-target="#publishedTopicsList" (click)="toggleTopicsList()">
-        <div id="publishedTopicsList" class="collapse">
-          <ul class="list-group">
-            <li class="list-group-item" *ngFor="let topic of publishedTopics" (click)="onPublishedTopicChosen($event)">{{ topic }}</li>
-          </ul>
-        </div>
+      <div class="topicSearchSubscribeContainer">
+        <app-topic-search [filteredTopics]="subscribedTopics.concat(publishedTopics)" style="width: 100%;"
+                          (topicChanged$)="onTopicChosen($event)"></app-topic-search>
+        <button class="subscribeUnsubscribeButton" (click)="subscribe()">Subscribe</button>
       </div>
-      <button (click)="subscribe()">Subscribe</button>
 
       <div>
         <div class="topicList">
-          <div *ngFor="let topic of topics" class="topic">
-            <button class="topicButton" [class.active]="isActive">{{ topic }}
-              <button class="unsubscribeButton" *ngIf="isSubscribedToTopic(topic)" (click)="unsubscribe($event)">Unsubscribe</button>
+          <div *ngFor="let topic of subscribedTopics" class="topic">
+            <button class="topicButton" [class.active]="isActive"
+                    (click)="subscribedTopicClicked($event)">{{ topic }}</button>
+            <button class="subscribeUnsubscribeButton" *ngIf="isSubscribedToTopic(topic)" (click)="unsubscribe(topic)">
+              Unsubscribe
             </button>
           </div>
         </div>
       </div>
     </div>
     <div class="rightContainer">
-    <div class="payloads">
-      <div *ngIf="selectedTopic" class="messages">
-        <div *ngFor="let message of messages" class="message">
-          {{ message.payloadString }}
-        </div>
-      </div>
+      <h2>Received messages</h2>
+      <app-message-history [messages]="messages"></app-message-history>
     </div>
   </div>
+</div>
+
+<div class="popupOverlay" *ngIf="showMessagePopup">
+  <div class="popupContainer">
+    <h2>messages</h2>
+    <app-message-history [messages]="filteredMessages"></app-message-history>
+    <div class="popupCloseButton" (click)="closeMessagePopup()">X</div>
   </div>
 </div>

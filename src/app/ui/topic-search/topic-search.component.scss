@@ -1,0 +1,27 @@
+@import "src/app/theme";
+
+.topic-search {
+  position: relative;
+  width: 100%;
+
+  input {
+   width: 100%;
+  }
+
+  ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: calcHeight(300);
+    overflow-y: auto;
+    background-color: #fff;
+    border: calcWidth(1) solid #ccc;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+}
+.topic-search ul li:hover {
+  background-color: #e5e5e5;
+}

@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { BrokerComponent } from './ui/broker/broker.component';
 import { SubscribeComponent } from './ui/subscribe/subscribe.component';
 import { PublishComponent } from './ui/publish/publish.component';
+import { TopicSearchComponent } from './ui/topic-search/topic-search.component';
+import {FormsModule} from "@angular/forms";
+import { MessageHistoryComponent } from './ui/message-history/message-history.component';
 
 @NgModule({
   declarations: [
@@ -13,10 +16,13 @@ import { PublishComponent } from './ui/publish/publish.component';
     BrokerComponent,
     SubscribeComponent,
     PublishComponent,
+    TopicSearchComponent,
+    MessageHistoryComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,28 @@
+* {
+  --defaultHeight: 1080;
+  --defaultWidth: 1920;
+}
+
+@function calcHeight($height : number) {
+  @return calc(#{$height} / var(--defaultHeight) * 100vh);
+}
+
+@function calcWidth($width : number) {
+  @return calc(#{$width} / var(--defaultWidth) * 100vw);
+}
+
+
+
+@media screen and (orientation: landscape) {
+  * {
+    --defaultHeight: 1080;
+    --defaultWidth: 1920;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  * {
+    --defaultHeight: 1920;
+    --defaultWidth: 1080;
+  }
+}

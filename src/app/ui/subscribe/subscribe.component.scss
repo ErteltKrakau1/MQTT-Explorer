@@ -1,49 +1,46 @@
-.subscribeComponent{
-background-color: #e5e5e5;
-  height: 100%;
-  width: 100%;
-}
-.disabled{
+@import "src/app/theme";
+
+.disabled {
   pointer-events: none;
   cursor: not-allowed;
   opacity: 0.5;
 }
-.topicList{
-  height: 200px;
+
+.topicList {
+  height: calcHeight(200);
 }
-.topicOption{
-  height: 20px;
-  width: 100%;
-}
-.topicSelect{
+
+
+.topicSelect {
   height: 100%;
   width: 100%;
 }
-.topicInput{
+
+.topicInput {
   width: 100%;
 }
-.list-group {
-  margin-bottom: 20px;
-}
 
-.list-group-item {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  border: none;
-  background-color: #fff;
-}
-
-.list-group-item:hover {
-  background-color: #f5f5f5;
-}
-
-.list-group-item.active {
-  background-color: #e5e5e5;
-}
-.topicButton{
+.topicButton {
+  text-align: left;
   width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.unsubscribeButton{
+
+.subscribeUnsubscribeButton {
   float: right;
+  width: calcWidth(120);
+  padding: 0;
+}
+
+.topic {
+  overflow: hidden;
+  display: flex;
+}
+.topicSearchSubscribeContainer{
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  margin-bottom: calcHeight(40);
 }

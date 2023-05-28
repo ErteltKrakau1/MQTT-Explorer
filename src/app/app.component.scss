@@ -1,5 +1,8 @@
+@import "./theme";
+
+
 .header{
-  height: 50px;
+  height: calcHeight(50);
   width: 100%;
   display: block;
 }
@@ -7,10 +10,10 @@
   display: inline-block;
   width: 0;
   height: 0;
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-right: 6px solid #000;
-  margin-left: 10px;
+  border-top: calcHeight(6) solid transparent;
+  border-bottom: calcHeight(6) solid transparent;
+  border-right: calcHeight(6) solid #000;
+  margin-left: calcWidth(10);
   transition: transform 0.3s;
 }
 
@@ -22,12 +25,12 @@
   font-size: calcHeight(50);
 }
 .content{
-  margin-left: 200px;
-  margin-right: 200px;
+  margin-left: calcWidth(200);
+  margin-right: calcWidth(200);
 }
 .status-indicator {
-  width: 15px;
-  height: 15px;
+  width: calcWidth(15);
+  height: calcHeight(15);
   border-radius: 50%;
   display: inline-block;
 }
@@ -38,3 +41,4 @@
 .disconnected {
   background-color: red;
 }
+

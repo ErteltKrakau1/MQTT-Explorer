@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Client, Message} from 'paho-mqtt';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {MqttMessage} from "../model/mqtt-message";
 
 @Injectable({
   providedIn: 'root'
@@ -8,25 +9,39 @@ import {BehaviorSubject, Observable, Subject} from 'rxjs';
 export class MqttService {
   private client: Client | null = null;
   private readonly connectSubject: Subject<boolean> = new BehaviorSubject<boolean>(false);
-  private receivedMessages: Message[] = [];
-  private receivedMessagesChanged$: Subject<Message> = new Subject();
+
+  private receivedMessages: MqttMessage[] = [];
+  private publishedMessages: MqttMessage[] = [];
+  private receivedMessagesChanged$: Subject<MqttMessage> = new Subject();
+  private publishedMessagesChanged$: Subject<MqttMessage> = new Subject<MqttMessage>();
   private clientId: string = (Math.random()).toString(36).substring(2);
-  private publishedMessages: Message[] = [];
-  private publishedMessagesChanged: Subject<Message> = new Subject<Message>();
   private hosts: string[] = ['wss://test.mosquitto.org:8081/mqtt', 'wss://mqtt-dashboard.com:8884/mqtt'];
   private hostUrl: string = this.hosts[0];
+  private hostsChanged$: Subject<string[]> = new Subject<string[]>();
   private subscribedTopics: string[] = [];
-  private testHostsChanged$: Subject<string[]> = new Subject<string[]>();
+  private subscribedTopicsChanged$: Subject<string> = new Subject();
 
 
   constructor() {
   }
 
-  public getTopics(): string[] {
+  getSubscribedTopicsObservable() : Observable<string>{
+    return this.subscribedTopicsChanged$.asObservable();
+  }
+  public getReceivedMessages(): MqttMessage[] {
+    return this.receivedMessages;
+  }
+
+  public getPublishedMessages(): MqttMessage[] {
+    return this.publishedMessages;
+  }
+
+  public getSubscribedTopics(): string[] {
     return this.subscribedTopics;
   }
-  public getPublishedMessagesChanged(): Observable<Message> {
-    return this.publishedMessagesChanged.asObservable();
+
+  public getPublishedMessagesChanged(): Observable<MqttMessage> {
+    return this.publishedMessagesChanged$.asObservable();
   }
 
   public getClientId(): string {
@@ -35,24 +50,29 @@ export class MqttService {
 
   public addTestHost(newHost: string): void {
     this.hosts.push(newHost);
-    this.testHostsChanged$.next(this.hosts);
+    this.hostsChanged$.next(this.hosts);
   }
 
   public removeTestHost(host: string): void {
     this.hosts = this.hosts.filter((h) => h !== host);
-    this.testHostsChanged$.next(this.hosts);
+    this.hostsChanged$.next(this.hosts);
     this.hostUrl = this.hosts[0];
   }
+
   public getTestHostsChanged(): Observable<string[]> {
-    return this.testHostsChanged$.asObservable();
+    return this.hostsChanged$.asObservable();
   }
 
   public getTestHosts(): string[] {
     return this.hosts;
   }
 
-  private onConnectionLost(): void {
-    this.connectSubject.next(false);
+  onConnectionLost(responseObject: { errorCode: number; errorMessage: string; }) {
+    if (responseObject.errorCode !== 0) {
+      console.log("onConnectionLost : " + responseObject.errorMessage);
+      this.connectSubject.next(false);
+    }
+
   }
 
   public isConnectedChanged(): Observable<boolean> {
@@ -60,25 +80,34 @@ export class MqttService {
   }
 
   public connect(): Observable<boolean> {
-    this.client = new Client(this.hostUrl, 'clientId' + Math.random());
-
+    console.log(this.connectSubject)
+    console.log(this.client)
+    this.client = new Client(this.hostUrl, 'clientId' + this.clientId);
+    console.log(this.client)
 
     this.client.connect({
       onSuccess: this.onConnect.bind(this),
-      onFailure: this.onConnectFailure.bind(this)
+      onFailure: this.onConnectFailure.bind(this),
+      reconnect: true,
+      keepAliveInterval: 900,
+      cleanSession: false
     });
     this.client.onMessageArrived = this.onMessageArrived.bind(this);
     this.client.onConnectionLost = this.onConnectionLost.bind(this);
-    console.log('connect; ', this.client.isConnected())
     return this.connectSubject.asObservable();
   }
 
 
   public subscribe(topic: string): void {
+    console.log('tsub: ', topic)
     if (!this.subscribedTopics.includes(topic)) {
       this.subscribedTopics.push(topic);
       this.client?.subscribe(topic);
     }
+  }
+
+  private getSubscribedTopicsSubject(): Observable<string> {
+    return this.subscribedTopicsChanged$.asObservable();
   }
 
   public unsubscribe(topic: string): void {
@@ -99,8 +128,10 @@ export class MqttService {
   }
 
   public sendMessage(topic: string, payload: string): void {
-    const message = new Message(payload);
-  this.publishedMessagesChanged.next(message);
+    const mqttMessage = {topic: topic, client: this.clientId, payload: payload, timestamp : Date.now()} as MqttMessage;
+    const message = new Message(JSON.stringify(mqttMessage));
+    this.publishedMessages.push(mqttMessage);
+    this.publishedMessagesChanged$.next(mqttMessage);
     message.destinationName = topic;
     this.client?.send(message);
   }
@@ -128,22 +159,20 @@ export class MqttService {
 
   private onMessageArrived(message: Message): void {
     console.log('Message arrived: ', message);
-    this.receivedMessagesChanged$.next(message);
+    const mqttMessage: MqttMessage = JSON.parse(message.payloadString);
+    this.receivedMessages.push(mqttMessage);
+    this.receivedMessagesChanged$.next(mqttMessage);
   }
 
-  public getReceivedMessageObservable(): Observable<Message> {
+  public getReceivedMessageObservable(): Observable<MqttMessage> {
     return this.receivedMessagesChanged$.asObservable();
   }
 
-  public getPublishedMessageObservable(): Observable<Message> {
-    return this.receivedMessagesChanged$.asObservable();
+  public getPublishedMessageObservable(): Observable<MqttMessage> {
+    return this.publishedMessagesChanged$.asObservable();
   }
 
-  getReceivedTopics() {
-    return this.receivedMessages;
-  }
-
-  generateNewClientId() : void {
+  generateNewClientId(): void {
     this.clientId = (Math.random()).toString(36).substring(2);
   }
 

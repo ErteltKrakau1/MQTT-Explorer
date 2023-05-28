@@ -1,23 +1,12 @@
+@import "src/app/theme";
+
 $fontColor: #636363;
 
-* {
-  --defaultHeight: 1080;
-  --defaultWidth: 1920;
-}
-
-@function calcHeight($height : number) {
-  @return calc(#{$height} / var(--defaultHeight) * 100vh);
-}
-
-@function calcWidth($width : number) {
-  @return calc(#{$width} / var(--defaultWidth) * 100vw);
-}
-
-
 body {
-  height: 100vh;
-  width: 100vw;
-  padding:0;
+//  height: 100vh;
+//  width: 100vw;
+  padding: 0;
+  margin: 0;
 
 }
 
@@ -36,44 +25,108 @@ body {
 
 
 .leftContainer {
-  width: 30%;
- // height: 100%;
+  width: 40%;
+  max-height: calcHeight(400);
   border-right: #636363 dotted;
   margin-top: 20px;
-  margin-bottom: 20px;
-  padding-right: 20px;
+  margin-bottom: calcHeight(20);
+  padding-right: calcWidth(20);
+  overflow: auto;
 }
 
 .componentContainer {
   background-color: #f2f2f2;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  height: 400px;
+  padding: calcHeight(20);
+  height: calcHeight(400);
   overflow: auto;
+  margin-bottom: calcHeight(50);
 }
-.flexDirectionColumn{
+
+.flexDirectionColumn {
   display: flex;
   flex-direction: column;
 }
-.flexDirectionRow{
+
+.flexDirectionRow {
   display: flex;
   flex-direction: row;
 }
-.input{
+
+input {
   border-color: #ccc
 }
 
-@media screen and (orientation: landscape) {
-  * {
-    --defaultHeight: 1080;
-    --defaultWidth: 1920;
-  }
+.rightContainer {
+  padding-left: calcWidth(20);
+  max-height: calcHeight(400);
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+  overflow: auto;
+}
+.message {
+  height: calcHeight(60);
+  text-align: left;
+  background-color: white;
+  padding: 0 0 0 20px;
+  margin: calcWidth(20) 0 0 0;
+
 }
 
-@media screen and (orientation: portrait) {
-  * {
-    --defaultHeight: 1920;
-    --defaultWidth: 1080;
-  }
+
+.messageInfo {
+  display: flex;
+  font-size: calcHeight(12);
+  height: calcHeight(25);
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+.payloadString {
+  color: black;
+  font-size: calcHeight(18);
+  overflow: auto;
+}
+.payload {
+  vertical-align: top;
+  height: calcHeight(200);
+  text-align: left;
+  width: 100%;
+}
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popupContainer {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 4px;
+  width: calcWidth(1000);
+  max-height: calcHeight(400);
+  overflow-y: auto;
+}
+
+.popupCloseButton {
+  position: absolute;
+  top: calcHeight(10);
+  right: calcHeight(10);
+  cursor: pointer;
+  color: red;
+  font-size: calcHeight(50);
+}
+h2{
+  text-align: center;
+  text-decoration: underline;
 }

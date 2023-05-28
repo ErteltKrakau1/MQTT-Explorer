@@ -1,19 +1,19 @@
-<div class="publishComponent" [class.disabled]="!isConnected">
+<div class="componentContainer" [class.disabled]="!isConnected">
   <div class="row">
     <div class="leftContainer">
       <div>
         <div>Topic</div>
-        <input  class="input" (input)="onTopicChanged($event)">
+        <app-topic-search [filteredTopics]="subscribedTopics.concat(publishedTopics)" class="topicSearch"
+                          (topicChanged$)="onTopicChosen($event)"></app-topic-search>
         <div>Message</div>
         <textarea class="payload input" (input)="onPayloadChanged($event)"></textarea>
         <button (click)="publish()">Publish</button>
       </div>
     </div>
-    <div class="rightContainer" style="width: 100%;">
-        <h2 style="text-align: center; text-decoration: underline" >messages</h2>
-        <div *ngFor="let message of publishedMessages">
-          <button class="message">{{ message.destinationName + ': ' + message.payloadString}}</button>
-        </div>
+    <div class="rightContainer">
+      <h2>Published messages</h2>
+    <app-message-history [messages]="publishedMessages"></app-message-history>
     </div>
   </div>
 </div>
+
