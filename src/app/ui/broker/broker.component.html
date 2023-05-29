@@ -2,25 +2,25 @@
   <div class="row">
     <div class="leftContainer">
       <h1>Host</h1>
-      <div *ngFor="let host of testHosts">
-        <button (click)="onHostChosen($event)" class="hostButton"
+      <div *ngFor="let host of hosts">
+        <button (click)="onHostChosen($event)" [disabled]="isConnected && host !== activeButton" class="hostButton"
                 [class.active]="host === activeButton">{{ host }}</button>
 
       </div>
       <button (click)="addNewHost()" class="addRemoveHostButton">add host</button>
 
-      <div class="popup-overlay" *ngIf="showAddHostPopup">
-        <div class="popup-container">
-          <button class="close-button" (click)="closeAddHostPopup()">X</button>
+      <div class="popupOverlay" *ngIf="showAddHostPopup">
+        <div class="popupContainer">
+          <button class="closeButton" (click)="closeAddHostPopup()">X</button>
 
           <h2>MQTT-Broker</h2>
           <input (input)="updateNewHost($event)">
-          <button class="confirm-button" (click)="confirmAddHost()">add</button>
+          <button class="confirmButton" (click)="confirmAddHost()">add</button>
         </div>
       </div>
     </div>
     <div class="rightContainer">
-      <div class="button-container">
+      <div class="buttonContainer">
         <button class="connectButton connect" (click)="connect()" [class.disabled]="isConnected">Connect</button>
         <button class="connectButton disconnect" (click)="disconnect()" [class.disabled]="!isConnected">Disconnect
         </button>
@@ -38,17 +38,22 @@
         <div class="flexDirectionColumn">
           <span>Broker Url</span>
           <input
-            [disabled]="(selectedHost === testHosts[0]  || selectedHost === testHosts[1] ) ||(isConnected && (selectedHost === testHosts[0]  || selectedHost === testHosts[1]) )"
-            value="{{mqttService.getHostUrl()}}">
+            [disabled]="(selectedHost === hosts[0]  || selectedHost === hosts[1] ) ||(isConnected && (selectedHost === hosts[0]  || selectedHost === hosts[1]) )"
+            value="{{hostUrl}}">
         </div>
       </div>
+      <div class="statusMessagesContainer">
+        <h2>Status messages</h2>
+        <div class="statusMessages">
+          <div *ngFor="let message of statusMessages.slice().reverse() ">{{ message }}   </div>
+        </div>
 
-      <button (click)="onHostToDeleteChosen()"
-              [disabled]="(selectedHost === testHosts[0]  || selectedHost === testHosts[1] ) ||(isConnected && (selectedHost === testHosts[0]  || selectedHost === testHosts[1]) )"
-              class="deleteButton">delete
-      </button>
+        <button (click)="onHostToDeleteChosen()"
+                [disabled]="(selectedHost === hosts[0]  || selectedHost === hosts[1] ) ||(isConnected && (selectedHost === hosts[0]  || selectedHost === hosts[1]) )"
+                class="deleteButton">delete
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
 

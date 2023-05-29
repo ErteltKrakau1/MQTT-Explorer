@@ -1,7 +1,7 @@
 @import "src/app/theme";
 
 
-.popup-overlay {
+.popupOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,21 +14,21 @@
   z-index: 9999;
 }
 
-.popup-container {
+.popupContainer {
   background-color: white;
   padding: calcWidth(20);
   border-radius: calcWidth(5);
   position: relative;
 }
 
-.close-button {
+.closeButton {
   position: absolute;
   top: calcHeight(10);
   right: calcWidth(10);
   padding: calcWidth(5);
 }
 
-.confirm-button {
+.confirmButton {
   margin-top: calcHeight(10);
 }
 
@@ -51,13 +51,14 @@
   padding: 0 0 0 calcHeight(10);
   background-color: #f2f2f2;
 }
+
 .hostButton.active,
 .hostButton.active:hover {
-  background-color: #e5e5e5;
+  background-color: #1da1f2;
 }
 
-.active{
-  background-color: #e5e5e5;
+.active {
+  background-color: #1da1f2;
 }
 
 .addRemoveHostButton {
@@ -73,27 +74,33 @@
   width: 100%;
   display: flex;
 }
-.connectButton{
-height: calcHeight(50);
+
+.connectButton {
+  height: calcHeight(50);
   width: calcWidth(150);
   margin: calcWidth(10);
 }
-.connect{
+
+.connect {
   background-color: green;
 }
-.disconnect{
+
+.disconnect {
   background-color: red;
 }
-.button-container{
+
+.buttonContainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
+
 .deleteButton {
   position: absolute;
   bottom: calcHeight(10);
   right: calcWidth(10);
 }
+
 .refreshButton {
   margin-left: calcWidth(2);
   height: calcHeight(31);
@@ -109,8 +116,20 @@ height: calcHeight(50);
   right: calcWidth(5);
   transform: translateY(-50%);
 }
-.input{
+
+.input {
   height: calcHeight(25);
   width: 80%;
   overflow: auto;
+}
+
+.statusMessagesContainer {
+  margin-top: calcHeight(30);
+  height: 40%;
+  width: 100%;
+  background-color: white;
+  overflow: auto;
+}
+.statusMessages{
+margin-left: calcWidth(20);
 }

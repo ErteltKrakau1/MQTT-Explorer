@@ -26,14 +26,14 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
 
   constructor(public mqttService: MqttService) {
-    this.isConnectedChanged$ = this.mqttService.isConnectedChanged().subscribe(newValue => this.isConnectedChanged(newValue));
+    this.isConnectedChanged$ = this.mqttService.isConnectedChangedObservable().subscribe(newValue => this.isConnectedChanged(newValue));
     this.onReceivedMessagesChanged$ = this.mqttService.getReceivedMessageObservable().subscribe(m => this.onReceivedMessagesChanged(m));
     this.onPublishedTopicsChanged$ = this.mqttService.getPublishedMessageObservable().subscribe(m => this.onPublishedTopicsChanged(m));
-
   }
 
   ngOnInit(): void {
     this.subscribedTopics = this.mqttService.getSubscribedTopics();
+    this.messages = this.mqttService.getReceivedMessages();
     const publishedMessages = this.mqttService.getPublishedMessages();
 
     for (let i = 0; i < publishedMessages.length; i++) {
@@ -49,7 +49,9 @@ export class SubscribeComponent implements OnInit, OnDestroy {
   }
 
   public subscribe(): void {
+    console.log('tpoic: ' , this.topic)
     if (this.topic.trim() !== '') {
+      this.subscribedTopics.push(this.topic);
       this.mqttService.subscribe(this.topic);
     }
   }
@@ -66,7 +68,6 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     this.selectedTopic = m.topic;
     this.messages.push(m);
     this.addTopicToList(m.topic);
-    console.log('messages: ' , this.messages)
   }
 
   private addTopicToList(topic: string): void {
@@ -93,20 +94,9 @@ export class SubscribeComponent implements OnInit, OnDestroy {
   }
 
   private onPublishedTopicsChanged(m: MqttMessage) {
-    console.log('publishedTopics: ', this.publishedTopics)
     const topic = m.topic;
     if (!this.publishedTopics.includes(topic)) {
       this.publishedTopics.push(topic);
-    }
-  }
-
-  toggleTopicsList() {
-    const publishedTopicsList = document.getElementById('publishedTopicsList');
-    const isCollapsed = publishedTopicsList?.classList.contains('show');
-    if (isCollapsed) {
-      publishedTopicsList?.classList.remove('show');
-    } else {
-      publishedTopicsList?.classList.add('show');
     }
   }
 
@@ -116,7 +106,6 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
   public subscribedTopicClicked($event: MouseEvent) {
     const topic = ($event.target as HTMLButtonElement).innerText;
-    console.log('clickedTopic: ' , topic);
     this.clickedSubscribedTopic = topic;
     this.updateFilteredMessages();
     this.openMessagePopup();
@@ -127,5 +116,13 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
   public closeMessagePopup() {
     this.showMessagePopup = false;
+  }
+  public getFilteredTopics(): string[] {
+    const topics = this.subscribedTopics.concat(this.publishedTopics);
+    return [...new Set(topics)];
+  }
+
+  onMessageHistoryChanged($event: MqttMessage[]) {
+    // TODO
   }
 }
