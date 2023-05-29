@@ -1,9 +1,10 @@
-<div style="height: 100%; width: 100%;">
+<div style="height: 100%;  width: 100%;">
   <h1 class="title">MQTT-EXPLORER</h1>
 
 <div class="content">
   <div>
-    <h1 (click)="toggleBroker()">
+
+    <h1  (click)="toggleBroker()">
       Broker
       <div class="status-indicator" [ngClass]="{ connected: isConnected, disconnected: !isConnected }"></div>
       <span class="toggle-arrow" [class.rotated]="!isBrokerExpanded"></span>

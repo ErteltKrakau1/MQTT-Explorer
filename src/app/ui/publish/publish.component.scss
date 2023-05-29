@@ -8,7 +8,14 @@
 input {
   width: 100%;
 }
-
+.buttonDesign{
+  background-color: #636363;
+  font-weight: bold;
+  color: white;
+  font-size: 15px;
+  border-radius: 15px;
+  cursor: pointer;
+}
 .topicSearch{
   width: 100%;
 }

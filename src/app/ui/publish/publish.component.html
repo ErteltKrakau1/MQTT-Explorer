@@ -2,16 +2,16 @@
   <div class="row">
     <div class="leftContainer">
       <div>
-        <div>Topic</div>
+        <div class="spanTitle">Topic</div>
         <app-topic-search [filteredTopics]="subscribedTopics.concat(publishedTopics)" class="topicSearch"
                           (topicChanged$)="onTopicChosen($event)"></app-topic-search>
-        <div>Message</div>
+        <div class="spanTitle">Message</div>
         <textarea class="payload input" (input)="onPayloadChanged($event)"></textarea>
-        <button (click)="publish()">Publish</button>
+        <button class="buttonDesign" (click)="publish()">Publish</button>
       </div>
     </div>
     <div class="rightContainer">
-      <h2>Published messages</h2>
+      <h2 class="spanTitle">Published messages</h2>
     <app-message-history [messages]="publishedMessages"></app-message-history>
     </div>
   </div>

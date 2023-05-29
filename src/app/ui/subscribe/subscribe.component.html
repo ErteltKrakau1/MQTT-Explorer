@@ -1,11 +1,11 @@
 <div class="componentContainer" [class.disabled]="!isConnected">
   <div class="row">
     <div class="leftContainer">
-      <div>Topic</div>
+      <div class="spanTitle">Topic</div>
       <div class="topicSearchSubscribeContainer">
         <app-topic-search [filteredTopics]="subscribedTopics.concat(publishedTopics)" style="width: 100%;"
                           (topicChanged$)="onTopicChosen($event)"></app-topic-search>
-        <button class="subscribeUnsubscribeButton" (click)="subscribe()">Subscribe</button>
+        <button class="subscribeUnsubscribeButton buttonDesign" (click)="subscribe()">Subscribe</button>
       </div>
 
       <div>
@@ -13,7 +13,7 @@
           <div *ngFor="let topic of subscribedTopics" class="topic">
             <button class="topicButton" [class.active]="isActive"
                     (click)="subscribedTopicClicked($event)">{{ topic }}</button>
-            <button class="subscribeUnsubscribeButton" *ngIf="isSubscribedToTopic(topic)" (click)="unsubscribe(topic)">
+            <button class="subscribeUnsubscribeButton buttonDesign" *ngIf="isSubscribedToTopic(topic)" (click)="unsubscribe(topic)">
               Unsubscribe
             </button>
           </div>
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="rightContainer">
-      <h2>Received messages</h2>
+      <h2 class="spanTitle">Received messages</h2>
       <app-message-history [messages]="messages"></app-message-history>
     </div>
   </div>

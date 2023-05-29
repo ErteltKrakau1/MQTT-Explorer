@@ -23,22 +23,43 @@
 .title{
   text-align: center;
   font-size: calcHeight(50);
+  color: #0584b2;
+  background-color: white;
+  cursor: auto;
+}
+h1{
+  cursor: pointer;
+  color: #636363 ;
+
+  &:hover {
+    background-color: #ffffff;
+    color: #009fe3;
+  }
+}
+.center{
+  align-items: center;
 }
 .content{
   margin-left: calcWidth(200);
   margin-right: calcWidth(200);
 }
 .status-indicator {
-  width: calcWidth(15);
-  height: calcHeight(15);
-  border-radius: 50%;
   display: inline-block;
+  align-items: center;
+margin-top: 8px;
+  width: calcWidth(27);
+  height: calcHeight(30);
+
 }
 .connected {
-  background-color: green;
+
+  background-image: url('~src/assets/images/connected.png');
+  background-size:100% 100%;
 }
 
 .disconnected {
-  background-color: red;
+
+  background-image: url('~src/assets/images/disconnected.png');
+  background-size:100% 100%;
 }
 
