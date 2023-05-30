@@ -17,7 +17,7 @@ export class MqttService {
   private publishedMessages: MqttMessage[] = [];
   private receivedMessagesChanged$: Subject<MqttMessage> = new Subject();
   private publishedMessagesChanged$: Subject<MqttMessage> = new Subject<MqttMessage>();
-  private clientId: string = (Math.random()).toString(36).substring(2);
+  private clientId: string;
   private hosts: string[] = ['wss://test.mosquitto.org:8081/mqtt', 'wss://mqtt-dashboard.com:8884/mqtt'];
   private hostUrl: string = this.hosts[0];
   private hostUrlChanged$: Subject<string> = new Subject<string>();
@@ -37,14 +37,14 @@ export class MqttService {
       this.receivedMessages = data.receivedMessages || [];
       this.publishedMessages = data.publishedMessages || [];
       this.subscribedTopics = data.subscribedTopics || [];
-      this.clientId = data.clientId || '';
+      this.clientId = data.clientId || this.generateClientID();
       this.hosts = data.hosts || ['wss://test.mosquitto.org:8081/mqtt', 'wss://mqtt-dashboard.com:8884/mqtt'];
       this.hostUrl = data.hostUrl || this.hosts[0];
     } else {
       this.receivedMessages = [];
       this.publishedMessages = [];
       this.subscribedTopics = [];
-      this.clientId = '';
+      this.clientId = this.generateClientID();
       this.hosts = ['wss://test.mosquitto.org:8081/mqtt', 'wss://mqtt-dashboard.com:8884/mqtt'];
       this.hostUrl = this.hosts[0];
     }
@@ -53,6 +53,7 @@ export class MqttService {
   public getStatusMessages(): string[] {
     return this.statusMessages;
   }
+
 
   private addStatusMessage(m: string): void {
     const timestamp = this.datePipe.transform(new Date(), 'dd.MM.yyyy HH:mm:ss');
@@ -88,8 +89,7 @@ export class MqttService {
   }
 
   public getClientId(): string {
-    const data = localStorage.getItem(this.localStorageKey);
-    return data ? JSON.parse(data).clientId : '';
+    return this.clientId;
   }
 
   public addTestHost(newHost: string): void {
@@ -110,8 +110,7 @@ export class MqttService {
   }
 
   public getHosts(): string[] {
-    const data = localStorage.getItem(this.localStorageKey);
-    return data ? JSON.parse(data).hosts : '';
+   return this.hosts;
   }
 
   onConnectionLost(responseObject: { errorCode: number; errorMessage: string; }) {
@@ -238,9 +237,14 @@ export class MqttService {
   public getPublishedMessageObservable(): Observable<MqttMessage> {
     return this.publishedMessagesChanged$.asObservable();
   }
+  public generateClientID():string{
+    return (Math.random()).toString(36).substring(2);
+  }
 
   public generateNewClientId(): void {
-    this.clientId = (Math.random()).toString(36).substring(2);
+    let clientId = this.generateClientID();
+    this.setClientId(clientId);
+
   }
   public updateReceivedMessages(messages : MqttMessage[]){
     this.receivedMessages = messages;
