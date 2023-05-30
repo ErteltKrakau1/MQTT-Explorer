@@ -10,7 +10,7 @@ export class TopicSearchComponent implements OnInit{
   public searchTerm: string = '';
   @Input() filteredTopics: string[] = [];
   public showDropdown: boolean = false;
-  @Output() topicChanged$ = new EventEmitter<string>();
+  @Output() topicChanged$: EventEmitter<string> = new EventEmitter<string>();
   @HostListener('document:click', ['$event'])
   public onClickOutside(event: Event): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
@@ -21,7 +21,7 @@ export class TopicSearchComponent implements OnInit{
 
   constructor(private mqttService: MqttService, private elementRef: ElementRef) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
   public showTopics(): void {

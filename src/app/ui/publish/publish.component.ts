@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {MqttService} from 'src/app/services/mqtt.service';
-import {Message} from "paho-mqtt";
 import {Subscription} from "rxjs";
 import {MqttMessage} from "../../model/mqtt-message";
 
@@ -10,25 +9,23 @@ import {MqttMessage} from "../../model/mqtt-message";
   styleUrls: ['./publish.component.scss']
 })
 export class PublishComponent implements OnInit {
-  topic: string = '';
-  payload: string = '';
-  publishedMessagesChanged$: Subscription;
-  publishedMessages: MqttMessage[] = [];
-  isConnected: boolean = false;
-  isConnectedChanged$: Subscription;
-  publishedTopics: string[] = [];
-  subscribedTopics: string[] = [];
-  subscribedTopicsChanged$: Subscription;
+  private topic: string = '';
+  private payload: string = '';
+  public publishedMessages: MqttMessage[] = [];
+  public isConnected: boolean = false;
+  private isConnectedChanged$: Subscription;
+  private publishedTopics: string[] = [];
+  private subscribedTopics: string[] = [];
+  private subscribedTopicsChanged$: Subscription;
 
   constructor(public mqttService: MqttService) {
-    this.publishedMessagesChanged$ = this.mqttService.getPublishedMessagesChanged().subscribe(m => this.onPublishedMessagesChanged(m))
     this.isConnectedChanged$ = this.mqttService.isConnectedChangedObservable().subscribe(newValue => this.isConnectedChanged(newValue));
     this.subscribedTopicsChanged$ = this.mqttService.getSubscribedTopicsObservable().subscribe(t => this.subscribedTopicsChanged(t));
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.subscribedTopics = this.mqttService.getSubscribedTopics();
-    const messages = this.mqttService.getPublishedMessages();
+    const messages : MqttMessage[] = this.mqttService.getPublishedMessages();
     this.publishedMessages = messages;
     for(let i = 0; i < messages.length; i++){
       const topic = messages[i].topic;
@@ -53,11 +50,7 @@ export class PublishComponent implements OnInit {
     this.payload = ($event.target as HTMLInputElement).value;
   }
 
-  private onPublishedMessagesChanged(m: MqttMessage): void {
-  }
-
-
-  public onTopicChosen($event: string) {
+  public onTopicChosen($event: string) : void {
     this.topic = $event;
   }
   public getFilteredTopics(): string[] {
@@ -65,10 +58,8 @@ export class PublishComponent implements OnInit {
     return [...new Set(topics)];
   }
   public onMessageHistoryChanged($event: MqttMessage[]): void {
-    const selectedMessageTimestamps = new Set<number>($event.map(message => message.timestamp));
-    console.log(selectedMessageTimestamps);
+    const selectedMessageTimestamps: Set<number> = new Set<number>($event.map(message => message.timestamp));
     this.publishedMessages = this.publishedMessages.filter(message => !selectedMessageTimestamps.has(message.timestamp));
-    console.log(this.publishedMessages)
     this.mqttService.updatePublishedMessages(this.publishedMessages);
     this.publishedMessages = this.mqttService.getPublishedMessages();
   }

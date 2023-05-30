@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MqttMessage} from "../../model/mqtt-message";
-import {MqttService} from "../../services/mqtt.service";
 
 @Component({
   selector: 'app-message-history',
@@ -12,7 +11,7 @@ export class MessageHistoryComponent {
   @Output() messagesChanged$: EventEmitter<MqttMessage[]> = new EventEmitter<MqttMessage[]>();
   selectedMessages: Set<number> = new Set<number>();
 
-  getTimestamp(timestamp: number) {
+  public getTimestamp(timestamp: number) : string {
     const now = new Date(timestamp);
     const year = now.getFullYear().toString().padStart(4, '0');
     const month = (now.getMonth() + 1).toString().padStart(2, '0');
@@ -24,7 +23,7 @@ export class MessageHistoryComponent {
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
   }
 
-  toggleMessageSelection(timestamp: number): void {
+  public toggleMessageSelection(timestamp: number): void {
     if (this.selectedMessages.has(timestamp)) {
       this.selectedMessages.delete(timestamp);
     } else {
@@ -32,14 +31,14 @@ export class MessageHistoryComponent {
     }
   }
 
-  deleteSelectedMessages(): void {
+  public deleteSelectedMessages(): void {
     const messagesToDelete = this.messages.filter(message => this.selectedMessages.has(message.timestamp));
     this.messagesChanged$.emit(messagesToDelete);
     this.messages = this.messages.filter(message => !this.selectedMessages.has(message.timestamp));
     this.selectedMessages.clear();
   }
 
-  selectAll(): void {
+  public selectAll(): void {
     this.selectedMessages = new Set<number>();
 
     const selectedMessageKeys = new Set<string>();

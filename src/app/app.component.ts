@@ -8,10 +8,10 @@ import {MqttService} from "./services/mqtt.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'mqtt-explorer';
-  isBrokerExpanded: boolean = true;
-  isSubscribeExpanded: boolean = false;
-  isPublishExpanded: boolean = false;
+  public title : string = 'mqtt-explorer';
+  public isBrokerExpanded: boolean = true;
+  public isSubscribeExpanded: boolean = false;
+  public isPublishExpanded: boolean = false;
   public isConnected: boolean = false;
   private isConnectedChanged$: Subscription;
 
@@ -19,15 +19,15 @@ export class AppComponent {
     this.isConnectedChanged$ = this.mqttService.isConnectedChangedObservable().subscribe(newValue => this.isConnectedChanged(newValue));
   }
 
-  toggleBroker(): void {
+  public toggleBroker(): void {
     this.isBrokerExpanded = !this.isBrokerExpanded;
   }
 
-  toggleSubscribe(): void {
+  public toggleSubscribe(): void {
     this.isSubscribeExpanded = !this.isSubscribeExpanded;
   }
 
-  togglePublish(): void {
+  public togglePublish(): void {
     this.isPublishExpanded = !this.isPublishExpanded;
   }
   private isConnectedChanged(newValue: boolean): void {

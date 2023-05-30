@@ -1,7 +1,6 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MqttService} from "../../services/mqtt.service";
 import {Subscription} from "rxjs";
-import {Message} from "paho-mqtt";
 import {MqttMessage} from "../../model/mqtt-message";
 
 @Component({
@@ -32,7 +31,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     this.onPublishedTopicsChanged$ = this.mqttService.getPublishedMessageObservable().subscribe(m => this.onPublishedTopicsChanged(m));
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.subscribedTopics = this.mqttService.getSubscribedTopics();
     this.messages = this.mqttService.getReceivedMessages();
     const publishedMessages = this.mqttService.getPublishedMessages();
@@ -57,11 +56,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onclick(): void {
-    this.isActive = true;
-  }
-
-  unsubscribe($event: string) {
+  public unsubscribe($event: string) : void {
     const index = this.subscribedTopics.indexOf($event);
     if (index !== -1) {
       this.subscribedTopics.splice(index, 1);
@@ -92,11 +87,11 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
   }
 
-  isSubscribedToTopic(topic: string): boolean {
+  public isSubscribedToTopic(topic: string): boolean {
     return this.mqttService.getSubscribedTopics().includes(topic);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.onReceivedMessagesChanged$?.unsubscribe();
     this.isConnectedChanged$?.unsubscribe();
     this.filteredMessages = [];
@@ -106,29 +101,29 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     this.filteredMessages = this.messages.filter(message => message.topic === this.clickedSubscribedTopic);
   }
 
-  private onPublishedTopicsChanged(m: MqttMessage) {
+  private onPublishedTopicsChanged(m: MqttMessage) : void {
     const topic = m.topic;
     if (!this.publishedTopics.includes(topic)) {
       this.publishedTopics.push(topic);
     }
   }
 
-  public onTopicChosen($event: string) {
+  public onTopicChosen($event: string) : void {
     this.topic = $event;
   }
 
-  public subscribedTopicClicked($event: MouseEvent) {
+  public subscribedTopicClicked($event: MouseEvent): void {
     const topic = ($event.target as HTMLButtonElement).innerText;
     this.clickedSubscribedTopic = topic;
     this.updateFilteredMessages();
     this.openMessagePopup();
   }
 
-  public openMessagePopup() {
+  public openMessagePopup(): void {
     this.showMessagePopup = true;
   }
 
-  public closeMessagePopup() {
+  public closeMessagePopup(): void {
     this.showMessagePopup = false;
   }
 
