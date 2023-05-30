@@ -13,7 +13,7 @@
           <div *ngFor="let topic of subscribedTopics" class="topic">
             <button class="topicButton" [class.active]="isActive"
                     (click)="subscribedTopicClicked($event)">{{ topic }}</button>
-            <button class="subscribeUnsubscribeButton" *ngIf="isSubscribedToTopic(topic)" (click)="unsubscribe(topic)">
+            <button class="subscribeUnsubscribeButton" *ngIf="isSubscribedToTopic(topic)" (click)="showUnsubscribeConfirmation = true; selectedTopic = topic">
               Unsubscribe
             </button>
           </div>
@@ -22,7 +22,7 @@
     </div>
     <div class="rightContainer">
       <h2>Received messages</h2>
-      <app-message-history [messages]="messages"></app-message-history>
+      <app-message-history [messages]="messages" (messagesChanged$)="onMessageHistoryChanged($event)"></app-message-history>
     </div>
   </div>
 </div>
@@ -32,5 +32,14 @@
     <h2>messages</h2>
     <app-message-history [messages]="filteredMessages" (messagesChanged$)="onMessageHistoryChanged($event)"></app-message-history>
     <div class="popupCloseButton" (click)="closeMessagePopup()">X</div>
+  </div>
+</div>
+
+<div class="unsubscribeConfirmation" *ngIf="showUnsubscribeConfirmation">
+  <div class="confirmationContainer">
+    <h2>Confirmation</h2>
+    <p>Are you sure you want to unsubscribe from {{ selectedTopic }} and delete all messages?</p>
+    <button class="confirmationButton" (click)="confirmUnsubscribe()">Confirm</button>
+    <button class="confirmationButton" (click)="cancelUnsubscribe()">Cancel</button>
   </div>
 </div>

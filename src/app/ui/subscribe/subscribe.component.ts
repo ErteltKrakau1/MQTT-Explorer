@@ -20,9 +20,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
   private topic: string = '';
   public subscribedTopics: string[] = [];
   public publishedTopics: string[] = [];
-  private clickedSubscribedTopic : string = '';
+  private clickedSubscribedTopic: string = '';
   public filteredMessages: MqttMessage[] = [];
   public showMessagePopup: boolean = false;
+  public showUnsubscribeConfirmation: boolean = false;
 
 
   constructor(public mqttService: MqttService) {
@@ -49,7 +50,6 @@ export class SubscribeComponent implements OnInit, OnDestroy {
   }
 
   public subscribe(): void {
-    console.log('tpoic: ' , this.topic)
     if (this.topic.trim() !== '') {
       this.subscribedTopics.push(this.topic);
       this.mqttService.subscribe(this.topic);
@@ -61,7 +61,23 @@ export class SubscribeComponent implements OnInit, OnDestroy {
   }
 
   unsubscribe($event: string) {
+    const index = this.subscribedTopics.indexOf($event);
+    if (index !== -1) {
+      this.subscribedTopics.splice(index, 1);
+      this.mqttService.unsubscribe($event);
+    }
     this.mqttService.unsubscribe($event);
+  }
+
+  public confirmUnsubscribe(): void {
+    this.unsubscribe(this.selectedTopic);
+    this.mqttService.updateReceivedMessages(this.messages.filter(message => message.topic !== this.selectedTopic));
+    this.messages = this.mqttService.getReceivedMessages();
+    this.showUnsubscribeConfirmation = false;
+  }
+
+  public cancelUnsubscribe(): void {
+    this.showUnsubscribeConfirmation = false;
   }
 
   private onReceivedMessagesChanged(m: MqttMessage): void {
@@ -86,9 +102,6 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     this.filteredMessages = [];
   }
 
-  onPublishedTopicChosen($event: Event) {
-    this.topic = ($event.target as HTMLSelectElement).value;
-  }
   private updateFilteredMessages(): void {
     this.filteredMessages = this.messages.filter(message => message.topic === this.clickedSubscribedTopic);
   }
@@ -110,6 +123,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     this.updateFilteredMessages();
     this.openMessagePopup();
   }
+
   public openMessagePopup() {
     this.showMessagePopup = true;
   }
@@ -117,12 +131,17 @@ export class SubscribeComponent implements OnInit, OnDestroy {
   public closeMessagePopup() {
     this.showMessagePopup = false;
   }
+
   public getFilteredTopics(): string[] {
     const topics = this.subscribedTopics.concat(this.publishedTopics);
     return [...new Set(topics)];
   }
 
-  onMessageHistoryChanged($event: MqttMessage[]) {
-    // TODO
+  public onMessageHistoryChanged($event: MqttMessage[]): void {
+    const selectedMessageTimestamps = new Set<number>($event.map(message => message.timestamp));
+    this.messages = this.messages.filter(message => !selectedMessageTimestamps.has(message.timestamp));
+    this.mqttService.updateReceivedMessages(this.messages);
+    this.messages = this.mqttService.getReceivedMessages();
   }
+
 }

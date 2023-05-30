@@ -9,7 +9,8 @@ import {MqttService} from "../../services/mqtt.service";
 })
 export class MessageHistoryComponent {
   @Input() messages: MqttMessage[] = [];
-  @Output() messagesChanged$ : EventEmitter<MqttMessage[]> = new EventEmitter<MqttMessage[]>();
+  @Output() messagesChanged$: EventEmitter<MqttMessage[]> = new EventEmitter<MqttMessage[]>();
+  selectedMessages: Set<number> = new Set<number>();
 
   getTimestamp(timestamp: number) {
     const now = new Date(timestamp);
@@ -22,19 +23,34 @@ export class MessageHistoryComponent {
 
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
   }
-  selectedMessages: Set<number> = new Set<number>();
 
-  toggleMessageSelection(index: number): void {
-    if (this.selectedMessages.has(index)) {
-      this.selectedMessages.delete(index);
+  toggleMessageSelection(timestamp: number): void {
+    if (this.selectedMessages.has(timestamp)) {
+      this.selectedMessages.delete(timestamp);
     } else {
-      this.selectedMessages.add(index);
+      this.selectedMessages.add(timestamp);
     }
   }
 
   deleteSelectedMessages(): void {
-    this.messages = this.messages.filter((_, index) => !this.selectedMessages.has(index));
+    const messagesToDelete = this.messages.filter(message => this.selectedMessages.has(message.timestamp));
+    this.messagesChanged$.emit(messagesToDelete);
+    this.messages = this.messages.filter(message => !this.selectedMessages.has(message.timestamp));
     this.selectedMessages.clear();
-    this.messagesChanged$.emit(this.messages);
+  }
+
+  selectAll(): void {
+    this.selectedMessages = new Set<number>();
+
+    const selectedMessageKeys = new Set<string>();
+
+    for (const message of this.messages) {
+      const messageKey = message.timestamp.toString() + '-' + message.topic;
+
+      if (!selectedMessageKeys.has(messageKey)) {
+        this.selectedMessages.add(message.timestamp);
+        selectedMessageKeys.add(messageKey);
+      }
+    }
   }
 }

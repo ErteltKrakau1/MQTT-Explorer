@@ -13,7 +13,7 @@ export class MqttService {
   private client: Client | null = null;
   private readonly connectSubject: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private readonly receivedMessages: MqttMessage[] = [];
+  private receivedMessages: MqttMessage[] = [];
   private readonly publishedMessages: MqttMessage[] = [];
   private receivedMessagesChanged$: Subject<MqttMessage> = new Subject();
   private publishedMessagesChanged$: Subject<MqttMessage> = new Subject<MqttMessage>();
@@ -166,6 +166,7 @@ export class MqttService {
   }
 
   public disconnect(): void {
+    this.addStatusMessage('disconnected');
     this.connectSubject.next(false);
     this.client?.disconnect();
   }
@@ -207,6 +208,8 @@ export class MqttService {
 
   private onConnect(): void {
     if (this.client?.isConnected()) {
+      this.addStatusMessage('successfully connected');
+      console.log(this.client)
       this.connectSubject.next(true);
     } else {
       this.connectSubject.next(false);
@@ -235,8 +238,12 @@ export class MqttService {
     return this.publishedMessagesChanged$.asObservable();
   }
 
-  generateNewClientId(): void {
+  public generateNewClientId(): void {
     this.clientId = (Math.random()).toString(36).substring(2);
+  }
+  public updateReceivedMessages(messages : MqttMessage[]){
+    this.receivedMessages = messages;
+    this.saveData();
   }
 
 }
