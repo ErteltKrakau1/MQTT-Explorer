@@ -76,13 +76,11 @@ export class MqttService {
   }
 
   public getReceivedMessages(): MqttMessage[] {
-    const data = localStorage.getItem(this.localStorageKey);
-    return data ? JSON.parse(data).receivedMessages : [];
+    return this.receivedMessages;
   }
 
   public getPublishedMessages(): MqttMessage[] {
-    const data = localStorage.getItem(this.localStorageKey);
-    return data ? JSON.parse(data).publishedMessages : [];
+    return this.publishedMessages;
   }
 
   public getSubscribedTopics(): string[] {
@@ -184,6 +182,7 @@ export class MqttService {
   public sendMessage(topic: string, payload: string): void {
     const mqttMessage = {topic: topic, client: this.clientId, payload: payload, timestamp: Date.now()} as MqttMessage;
     const message = new Message(JSON.stringify(mqttMessage));
+    console.log(message);
     this.publishedMessages.push(mqttMessage);
     this.publishedMessagesChanged$.next(mqttMessage);
     message.destinationName = topic;

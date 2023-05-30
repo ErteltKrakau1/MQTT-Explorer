@@ -67,8 +67,10 @@ export class PublishComponent implements OnInit {
   }
   public onMessageHistoryChanged($event: MqttMessage[]): void {
     const selectedMessageTimestamps = new Set<number>($event.map(message => message.timestamp));
+    console.log(selectedMessageTimestamps);
     this.publishedMessages = this.publishedMessages.filter(message => !selectedMessageTimestamps.has(message.timestamp));
+    console.log(this.publishedMessages)
     this.mqttService.updatePublishedMessages(this.publishedMessages);
-    this.publishedMessages = this.mqttService.getReceivedMessages();
+    this.publishedMessages = this.mqttService.getPublishedMessages();
   }
 }
