@@ -71,24 +71,27 @@ input {
   overflow: auto;
 }
 .message {
+  display: flex;
+  align-items: center;
   height: calcHeight(60);
   text-align: left;
   background-color: white;
   padding: 0 0 0 20px;
   margin: calcWidth(20) 0 0 0;
-
 }
 
 
 .messageInfo {
   display: flex;
+  align-items: center;
   font-size: calcHeight(12);
   height: calcHeight(25);
-  align-items: center;
-  justify-content: center;
   overflow: auto;
 }
 
+.inputCheckbox {
+  margin-right: 10px;
+}
 .payloadString {
   color: black;
   font-size: calcHeight(18);

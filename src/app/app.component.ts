@@ -16,7 +16,7 @@ export class AppComponent {
   private isConnectedChanged$: Subscription;
 
   constructor(private mqttService : MqttService) {
-    this.isConnectedChanged$ = this.mqttService.isConnectedChanged().subscribe(newValue => this.isConnectedChanged(newValue));
+    this.isConnectedChanged$ = this.mqttService.isConnectedChangedObservable().subscribe(newValue => this.isConnectedChanged(newValue));
   }
 
   toggleBroker(): void {
@@ -32,6 +32,5 @@ export class AppComponent {
   }
   private isConnectedChanged(newValue: boolean): void {
     this.isConnected = newValue;
-    console.log(this.isConnected)
   }
 }

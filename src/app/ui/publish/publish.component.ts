@@ -19,19 +19,17 @@ export class PublishComponent implements OnInit {
   publishedTopics: string[] = [];
   subscribedTopics: string[] = [];
   subscribedTopicsChanged$: Subscription;
-  showMessagePopup : boolean = false;
-  public filteredMessages: MqttMessage[] = [];
-
 
   constructor(public mqttService: MqttService) {
     this.publishedMessagesChanged$ = this.mqttService.getPublishedMessagesChanged().subscribe(m => this.onPublishedMessagesChanged(m))
-    this.isConnectedChanged$ = this.mqttService.isConnectedChanged().subscribe(newValue => this.isConnectedChanged(newValue));
+    this.isConnectedChanged$ = this.mqttService.isConnectedChangedObservable().subscribe(newValue => this.isConnectedChanged(newValue));
     this.subscribedTopicsChanged$ = this.mqttService.getSubscribedTopicsObservable().subscribe(t => this.subscribedTopicsChanged(t));
   }
 
   ngOnInit(): void {
     this.subscribedTopics = this.mqttService.getSubscribedTopics();
     const messages = this.mqttService.getPublishedMessages();
+    this.publishedMessages = messages;
     for(let i = 0; i < messages.length; i++){
       const topic = messages[i].topic;
       this.publishedTopics.push(topic);
@@ -63,11 +61,8 @@ export class PublishComponent implements OnInit {
   public onTopicChosen($event: string) {
     this.topic = $event;
   }
-  public openMessagePopup() {
-    this.showMessagePopup = true;
-  }
-
-  public closeMessagePopup() {
-    this.showMessagePopup = false;
+  public getFilteredTopics(): string[] {
+    const topics = this.subscribedTopics.concat(this.publishedTopics);
+    return [...new Set(topics)];
   }
 }

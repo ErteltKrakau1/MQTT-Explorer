@@ -3,7 +3,7 @@
     <div class="leftContainer">
       <div class="spanTitle">Topic</div>
       <div class="topicSearchSubscribeContainer">
-        <app-topic-search [filteredTopics]="subscribedTopics.concat(publishedTopics)" style="width: 100%;"
+        <app-topic-search [filteredTopics]="getFilteredTopics()" style="width: 100%;"
                           (topicChanged$)="onTopicChosen($event)"></app-topic-search>
         <button class="subscribeUnsubscribeButton buttonDesign" (click)="subscribe()">Subscribe</button>
       </div>
@@ -30,7 +30,7 @@
 <div class="popupOverlay" *ngIf="showMessagePopup">
   <div class="popupContainer">
     <h2>messages</h2>
-    <app-message-history [messages]="filteredMessages"></app-message-history>
+    <app-message-history [messages]="filteredMessages" (messagesChanged$)="onMessageHistoryChanged($event)"></app-message-history>
     <div class="popupCloseButton" (click)="closeMessagePopup()">X</div>
   </div>
 </div>

@@ -3,7 +3,7 @@
     <div class="leftContainer">
       <div>
         <div class="spanTitle">Topic</div>
-        <app-topic-search [filteredTopics]="subscribedTopics.concat(publishedTopics)" class="topicSearch"
+        <app-topic-search [filteredTopics]="getFilteredTopics()" class="topicSearch"
                           (topicChanged$)="onTopicChosen($event)"></app-topic-search>
         <div class="spanTitle">Message</div>
         <textarea class="payload input" (input)="onPayloadChanged($event)"></textarea>

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MqttMessage} from "../../model/mqtt-message";
 import {MqttService} from "../../services/mqtt.service";
 
@@ -9,6 +9,7 @@ import {MqttService} from "../../services/mqtt.service";
 })
 export class MessageHistoryComponent {
   @Input() messages: MqttMessage[] = [];
+  @Output() messagesChanged$ : EventEmitter<MqttMessage[]> = new EventEmitter<MqttMessage[]>();
 
   getTimestamp(timestamp: number) {
     const now = new Date(timestamp);
@@ -21,5 +22,19 @@ export class MessageHistoryComponent {
 
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
   }
+  selectedMessages: Set<number> = new Set<number>();
 
+  toggleMessageSelection(index: number): void {
+    if (this.selectedMessages.has(index)) {
+      this.selectedMessages.delete(index);
+    } else {
+      this.selectedMessages.add(index);
+    }
+  }
+
+  deleteSelectedMessages(): void {
+    this.messages = this.messages.filter((_, index) => !this.selectedMessages.has(index));
+    this.selectedMessages.clear();
+    this.messagesChanged$.emit(this.messages);
+  }
 }

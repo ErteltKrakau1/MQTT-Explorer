@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {MqttService} from 'src/app/services/mqtt.service';
 import {Subscription} from "rxjs";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-broker',
@@ -14,23 +15,29 @@ export class BrokerComponent {
   testHostsChanged$: Subscription;
   private newHost: string = '';
   public selectedHost: string = '';
+  private hostUrlChanged$ : Subscription;
   public showAddHostPopup: boolean = false;
   public activeButton: string | null = null;
-  testHosts: string[] = [];
+  public hosts: string[] = [];
+  public statusMessages : string[] = [];
+  protected readonly Date = Date;
 
   constructor(public mqttService: MqttService) {
-    this.isConnectedChanged$ = this.mqttService.isConnectedChanged().subscribe(newValue => this.isConnectedChanged(newValue));
-    this.testHostsChanged$ = this.mqttService.getTestHostsChanged().subscribe((hosts: string[]) => this.onTestHostsChanged(hosts));
-    this.testHosts = this.mqttService.getTestHosts();
-    this.hostUrl = mqttService.getHostUrl();
-    this.activeButton = this.testHosts[0];
-    this.selectedHost = this.testHosts[0];
+    this.isConnectedChanged$ = this.mqttService.isConnectedChangedObservable().subscribe(newValue => this.isConnectedChanged(newValue));
+    this.testHostsChanged$ = this.mqttService.getTestHostsChangedObservable().subscribe((hosts: string[]) => this.onHostsChanged(hosts));
+    this.hostUrlChanged$ = this.mqttService.getHostUrlChangedObservable().subscribe(url => this.onHostUrlChanged(url));
+    this.hosts = this.mqttService.getHosts();
+    this.hostUrl = mqttService.getHostUrl() || this.hosts[0];
+    console.log('hostUrl' , this.hostUrl)
+    this.activeButton = this.hosts[0];
+    this.selectedHost = this.hosts[0];
+    this.statusMessages = this.mqttService.getStatusMessages();
   }
 
-  private onTestHostsChanged(hosts: string[]): void {
-    this.testHosts = hosts;
-    this.activeButton = this.testHosts[0];
-    this.selectedHost = this.testHosts[0];
+  private onHostsChanged(hosts: string[]): void {
+    this.hosts = hosts;
+    this.activeButton = this.hosts[0];
+    this.selectedHost = this.hosts[0];
   }
 
   private isConnectedChanged(newValue: boolean): void {
@@ -40,12 +47,6 @@ export class BrokerComponent {
 
   public connect(): void {
     this.mqttService.connect();
-  }
-
-  public onHostUrlChanged($event: Event): void {
-    const newValue = ($event.target as HTMLInputElement).value;
-    this.hostUrl = newValue;
-    this.mqttService.setHostUrl(newValue)
   }
 
   public disconnect(): void {
@@ -62,6 +63,7 @@ export class BrokerComponent {
 
   public updateNewHost($event: Event) {
     this.newHost = ($event.target as HTMLInputElement).value;
+
   }
 
   public closeAddHostPopup(): void {
@@ -91,11 +93,11 @@ export class BrokerComponent {
 
   onHostToDeleteChosen(): void {
     if (this.selectedHost !== '') {
-      const index = this.testHosts.indexOf(this.selectedHost);
+      const index = this.hosts.indexOf(this.selectedHost);
       if (index !== -1) {
         this.mqttService.removeTestHost(this.selectedHost);
-        this.testHosts.splice(index, 1);
-        this.selectedHost = this.testHosts[0];
+        this.hosts.splice(index, 1);
+        this.selectedHost = this.hosts[0];
         this.activeButton = this.selectedHost;
         this.mqttService.setHostUrl(this.selectedHost);
       }
@@ -104,5 +106,9 @@ export class BrokerComponent {
 
   generateNewClientId() {
     this.mqttService.generateNewClientId();
+  }
+
+  private onHostUrlChanged(url: string) {
+    this.hostUrl = url;
   }
 }

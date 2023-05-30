@@ -1,12 +1,13 @@
 <div>
+  <button (click)="deleteSelectedMessages()">Delete</button>
   <div class="message" *ngFor="let message of messages.slice().reverse(); let i = index">
-      <div class="messageInfo">
-        <span class="paddingRight">{{getTimestamp(message.timestamp)}}</span>
-        <span class="paddingRight">topic:  {{message.topic}}</span>
-        <span>Client Id: {{message.client}}</span>
-      </div>
-      <div class="payloadString">{{message.payload }}
-      </div>
+    <div class="messageInfo">
+      <input class="inputCheckbox" type="checkbox" [checked]="selectedMessages.has(i)" (change)="toggleMessageSelection(i)">
+      <span class="paddingRight">{{ getTimestamp(message.timestamp) }}</span>
+      <span class="paddingRight">topic: {{ message.topic }}</span>
+      <span>Client Id: {{ message.client }}</span>
     </div>
+    <div class="payloadString">{{ message.payload }}</div>
   </div>
+</div>
 
