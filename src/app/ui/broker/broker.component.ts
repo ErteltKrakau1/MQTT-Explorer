@@ -112,3 +112,4 @@ export class BrokerComponent {
     this.hostUrl = url;
   }
 }
+// TODO doppeltes subscriben
