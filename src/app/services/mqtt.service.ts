@@ -203,6 +203,7 @@ export class MqttService {
 
   public setHostUrl(value: string): void {
     this.hostUrl = value;
+    this.hostUrlChanged$.next(value);
     this.saveData();
   }
 
@@ -249,5 +250,4 @@ export class MqttService {
     this.publishedMessages = messages;
     this.saveData();
   }
-
 }

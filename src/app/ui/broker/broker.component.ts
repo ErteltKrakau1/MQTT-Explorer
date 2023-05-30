@@ -24,7 +24,7 @@ export class BrokerComponent {
   public clientId : string = '';
 
   constructor(public mqttService: MqttService) {
-    this.isConnectedChanged$ = this.mqttService.getConnectedChangedObservable().subscribe(newValue => this.isConnectedChanged(newValue));
+    this.isConnectedChanged$ = this.mqttService.isConnectedChangedObservable().subscribe(newValue => this.isConnectedChanged(newValue));
     this.testHostsChanged$ = this.mqttService.getTestHostsChangedObservable().subscribe((hosts: string[]) => this.onHostsChanged(hosts));
     this.hostUrlChanged$ = this.mqttService.getHostUrlChangedObservable().subscribe(url => this.onHostUrlChanged(url));
     this.hosts = this.mqttService.getHosts();
