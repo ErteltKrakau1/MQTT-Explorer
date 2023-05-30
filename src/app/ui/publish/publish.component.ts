@@ -65,4 +65,10 @@ export class PublishComponent implements OnInit {
     const topics = this.subscribedTopics.concat(this.publishedTopics);
     return [...new Set(topics)];
   }
+  public onMessageHistoryChanged($event: MqttMessage[]): void {
+    const selectedMessageTimestamps = new Set<number>($event.map(message => message.timestamp));
+    this.publishedMessages = this.publishedMessages.filter(message => !selectedMessageTimestamps.has(message.timestamp));
+    this.mqttService.updatePublishedMessages(this.publishedMessages);
+    this.publishedMessages = this.mqttService.getReceivedMessages();
+  }
 }

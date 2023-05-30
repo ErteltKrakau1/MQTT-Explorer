@@ -12,7 +12,7 @@
     </div>
     <div class="rightContainer">
       <h2 class="spanTitle">Published messages</h2>
-    <app-message-history [messages]="publishedMessages"></app-message-history>
+    <app-message-history [messages]="publishedMessages" (messagesChanged$)="onMessageHistoryChanged($event)"></app-message-history>
     </div>
   </div>
 </div>

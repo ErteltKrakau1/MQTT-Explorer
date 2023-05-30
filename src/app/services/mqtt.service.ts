@@ -14,7 +14,7 @@ export class MqttService {
   private readonly connectSubject: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   private receivedMessages: MqttMessage[] = [];
-  private readonly publishedMessages: MqttMessage[] = [];
+  private publishedMessages: MqttMessage[] = [];
   private receivedMessagesChanged$: Subject<MqttMessage> = new Subject();
   private publishedMessagesChanged$: Subject<MqttMessage> = new Subject<MqttMessage>();
   private clientId: string = (Math.random()).toString(36).substring(2);
@@ -243,6 +243,10 @@ export class MqttService {
   }
   public updateReceivedMessages(messages : MqttMessage[]){
     this.receivedMessages = messages;
+    this.saveData();
+  }
+  public updatePublishedMessages(messages : MqttMessage[]){
+    this.publishedMessages = messages;
     this.saveData();
   }
 
