@@ -7,6 +7,7 @@ body {
 //  width: 100vw;
   padding: 0;
   margin: 0;
+  background-color:#e5e5e5;
 
 }
 
@@ -15,7 +16,10 @@ body {
   cursor: not-allowed;
   opacity: 0.5;
 }
-
+.spanTitle{
+  color: #636363;
+  font-size: 25px;
+}
 .row {
   display: flex;
   flex-direction: row;
@@ -35,7 +39,7 @@ body {
 }
 
 .componentContainer {
-  background-color: #f2f2f2;
+  background-color: white;
   display: flex;
   flex-direction: column;
   padding: calcHeight(20);
@@ -129,7 +133,4 @@ input {
   color: red;
   font-size: calcHeight(50);
 }
-h2{
-  text-align: center;
-  text-decoration: underline;
-}
+

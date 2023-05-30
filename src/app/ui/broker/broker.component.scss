@@ -1,7 +1,7 @@
 @import "src/app/theme";
 
 
-.popupOverlay {
+.popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,22 +14,29 @@
   z-index: 9999;
 }
 
-.popupContainer {
-  background-color: white;
+.popup-container {
+  background-color:#e5e5e5;
   padding: calcWidth(20);
   border-radius: calcWidth(5);
   position: relative;
 }
 
-.closeButton {
+.close-button {
   position: absolute;
   top: calcHeight(10);
   right: calcWidth(10);
   padding: calcWidth(5);
 }
 
-.confirmButton {
+.confirm-button {
   margin-top: calcHeight(10);
+  cursor: pointer;
+  background-color: #636363;
+  font-weight: bold;
+  color: white;
+  font-size: 15px;
+  border-radius: 15px;
+
 }
 
 .notDeletable {
@@ -50,19 +57,45 @@
   border: 0;
   padding: 0 0 0 calcHeight(10);
   background-color: #f2f2f2;
+  color: #636363;
+  cursor: pointer;
 }
-
 .hostButton.active,
 .hostButton.active:hover {
-  background-color: #1da1f2;
+  background-color: #636363;
+  color: white;
+
+}
+h2{
+  text-align: center;
+  font-weight: bolder;
+  background-color: white;
+  color: #009fe3;
 }
 
-.active {
-  background-color: #1da1f2;
+.active{
+  background-color: #e5e5e5;
 }
 
-.addRemoveHostButton {
+.inlineButtons {
+  width: 80px;
+  height: 30px;
+  flex-grow: 1 ;
   margin-top: calcHeight(20);
+  background-color: #636363;
+  font-weight: bold;
+  color: white;
+  font-size: 15px;
+  border-radius: 15px;
+  cursor: pointer;
+
+
+}
+.addRemoveHostButton{
+  margin-right: 20px;
+}
+.deleteButton{
+  margin-left: 20px;
 }
 
 .hosts {
@@ -74,62 +107,51 @@
   width: 100%;
   display: flex;
 }
-
-.connectButton {
-  height: calcHeight(50);
+.connectButton{
+height: calcHeight(50);
   width: calcWidth(150);
   margin: calcWidth(10);
-}
+  cursor: pointer;
+  font-weight: bolder;
+  font-size: 20px;
+  border-radius: 15px;
+  color: white;
 
-.connect {
-  background-color: green;
 }
+.connect{
+  background-color:#24a500;
+  border:1px solid #0b4709;
 
-.disconnect {
-  background-color: red;
+
 }
-
-.buttonContainer {
+h1{
+  color: #636363 ;
+}
+.disconnect{
+  background-color: #bd1622;;
+  border:1px solid #4d030d;
+}
+.button-container{
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-
-.deleteButton {
-  position: absolute;
-  bottom: calcHeight(10);
-  right: calcWidth(10);
+.button-toolbar{
+  display: flex;
+  justify-content: space-between;
 }
-
 .refreshButton {
   margin-left: calcWidth(2);
-  height: calcHeight(31);
-  width: calcWidth(31);
-  position: relative;
+  height: calcHeight(50);
+  width: calcWidth(50);
+  background-image: url('~src/assets/images/refresh.svg');
+  background-size:100% 100%;
+  background-color: #636363 ;
+  cursor: pointer;
 }
 
-.refreshButton::after {
-  font-size: calcHeight(20);
-  content: "\21BB";
-  position: absolute;
-  top: 50%;
-  right: calcWidth(5);
-  transform: translateY(-50%);
-}
-
-.input {
+.input{
   height: calcHeight(25);
   width: 80%;
   overflow: auto;
-}
-
-.statusMessagesContainer {
-  margin-top: calcHeight(30);
-  height: 40%;
-  width: 100%;
-  background-color: white;
-  overflow: auto;
-}
-.statusMessages{
-margin-left: calcWidth(20);
 }
