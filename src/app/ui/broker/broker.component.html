@@ -50,7 +50,7 @@
         <div>
           <div class="flexDirectionColumn">
             <span class="spanTitle">Broker Url</span>
-            <input
+            <input class="refreshInput"
               [disabled]="(selectedHost === hosts[0]  || selectedHost === hosts[1] ) ||(isConnected && (selectedHost === hosts[0]  || selectedHost === hosts[1]) )"
               value="{{hostUrl}}">
           </div>
@@ -58,7 +58,7 @@
         <div class="statusMessagesContainer">
           <h2>Status messages</h2>
           <div class="statusMessages">
-            <div *ngFor="let message of statusMessages.slice().reverse() ">{{ message }}   </div>
+            <div class="statusMessage" *ngFor="let message of statusMessages.slice().reverse() ">{{ message }}   </div>
           </div>
         </div>
       </div>

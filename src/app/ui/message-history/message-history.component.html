@@ -1,13 +1,15 @@
 <div>
-  <button [disabled]="messages.length === 0" (click)="deleteSelectedMessages()">delete</button>
-  <button [disabled]="messages.length === 0"  (click)="selectAll()">select all</button>
+  <div class="button-toolbar">
+  <button class="messageButton leftButton" [disabled]="messages.length === 0" (click)="deleteSelectedMessages()">delete</button>
+  <button class="messageButton rightButton"[disabled]="messages.length === 0"  (click)="selectAll()">select all</button>
+  </div>
   <div class="message" *ngFor="let message of messages.slice().reverse(); let i = index">
     <div class="messageInfo">
       <input class="inputCheckbox" type="checkbox" [checked]="selectedMessages.has(message.timestamp)" (change)="toggleMessageSelection(message.timestamp)">
       <span class="paddingRight">{{ getTimestamp(message.timestamp) }}</span>
-      <span class="paddingRight">topic: {{ message.topic }}</span>
-      <span>Client Id: {{ message.client }}</span>
+      <span class="paddingRight">topic:  {{ message.topic }}</span>
+      <span>Client Id:  {{ message.client }}</span>
     </div>
-    <div class="payloadString">{{ message.payload }}</div>
+    <div class="payloadString paddingRight">Message: {{ message.payload }}</div>
   </div>
 </div>
