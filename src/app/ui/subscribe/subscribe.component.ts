@@ -50,7 +50,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
   }
 
   public subscribe(): void {
-    if (this.topic.trim() !== '') {
+    const trimmedTopic = this.topic.trim();
+    if (!!trimmedTopic && this.subscribedTopics.indexOf(this.topic) == -1) {
       this.subscribedTopics.push(this.topic);
       this.mqttService.subscribe(this.topic);
     }
