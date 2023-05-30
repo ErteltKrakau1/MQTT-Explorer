@@ -3,3 +3,27 @@
 .paddingRight{
   padding-right: calcWidth(30);
 }
+.messageButton{
+  width: 70px;
+  height: 30px;
+  flex-grow: 1 ;
+  margin-top: calcHeight(20);
+  background-color: #636363;
+  font-weight: bold;
+  color: white;
+  font-size: 25px;
+  border-radius: 15px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.button-toolbar{
+  display: flex;
+
+}
+.leftButton{
+  margin-right: 20px;
+}
+.rightButton{
+  margin-right: 1px;
+}

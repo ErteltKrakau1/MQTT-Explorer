@@ -5,7 +5,7 @@
       <div class="topicSearchSubscribeContainer">
         <app-topic-search [filteredTopics]="getFilteredTopics()" style="width: 100%;"
                           (topicChanged$)="onTopicChosen($event)"></app-topic-search>
-        <button class="subscribeUnsubscribeButton buttonDesign" (click)="subscribe()">Subscribe</button>
+        <button class="subscribeUnsubscribeButton sideButtonDesign" (click)="subscribe()">Subscribe</button>
       </div>
 
       <div>
@@ -13,7 +13,7 @@
           <div *ngFor="let topic of subscribedTopics" class="topic">
             <button class="topicButton" [class.active]="isActive"
                     (click)="subscribedTopicClicked($event)">{{ topic }}</button>
-            <button class="subscribeUnsubscribeButton buttonDesign" *ngIf="isSubscribedToTopic(topic)" (click)="showUnsubscribeConfirmation = true; selectedTopic = topic">
+            <button class="subscribeUnsubscribeButton sideButtonDesign" *ngIf="isSubscribedToTopic(topic)" (click)="showUnsubscribeConfirmation = true; selectedTopic = topic">
               Unsubscribe
             </button>
           </div>
@@ -29,7 +29,7 @@
 
 <div class="popupOverlay" *ngIf="showMessagePopup">
   <div class="popupContainer">
-    <h2>messages</h2>
+    <h2>Messages</h2>
     <app-message-history [messages]="filteredMessages" (messagesChanged$)="onMessageHistoryChanged($event)"></app-message-history>
     <div class="popupCloseButton" (click)="closeMessagePopup()">X</div>
   </div>

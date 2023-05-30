@@ -43,7 +43,11 @@
   color: grey;
 }
 
-
+.statusMessage{
+  background-color: #646464;
+  color: white;
+  font-size: 25px;
+}
 .title {
   font-size: calcHeight(50);
   font-weight: bold;
@@ -140,6 +144,11 @@ h1{
   display: flex;
   justify-content: space-between;
 }
+.refreshInput{
+  color: white;
+  background-color: #646464;
+  font-size: 20px;
+}
 .refreshButton {
   margin-left: calcWidth(2);
   height: calcHeight(50);
@@ -154,4 +163,6 @@ h1{
   height: calcHeight(25);
   width: 80%;
   overflow: auto;
+  font-size: 20px;
+
 }

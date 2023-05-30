@@ -26,7 +26,15 @@ body {
   width: 100%;
   height: 100%;
 }
+.sideButtonDesign{
 
+  background-color: #636363;
+  font-weight: bold;
+  color: white;
+  font-size: 15px;
+  border-radius: 15px;
+  cursor: pointer;
+}
 
 .leftContainer {
   width: 40%;
@@ -75,27 +83,31 @@ input {
   align-items: center;
   height: calcHeight(60);
   text-align: left;
-  background-color: white;
   padding: 0 0 0 20px;
   margin: calcWidth(20) 0 0 0;
+  background-color: #646464;
+  color: white;
 }
 
 
 .messageInfo {
   display: flex;
   align-items: center;
-  font-size: calcHeight(12);
+
   height: calcHeight(25);
   overflow: auto;
+  font-size: 17px;
+
 }
 
 .inputCheckbox {
   margin-right: 10px;
 }
 .payloadString {
-  color: black;
-  font-size: calcHeight(18);
+  color: antiquewhite;
+  font-size: calcHeight(25);
   overflow: auto;
+ margin-left: 20px;
 }
 .payload {
   vertical-align: top;
