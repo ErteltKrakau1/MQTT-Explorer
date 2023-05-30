@@ -82,7 +82,6 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
   private onReceivedMessagesChanged(m: MqttMessage): void {
     this.selectedTopic = m.topic;
-    this.messages.push(m);
     this.addTopicToList(m.topic);
   }
 

@@ -54,7 +54,6 @@ export class PublishComponent implements OnInit {
   }
 
   private onPublishedMessagesChanged(m: MqttMessage): void {
-    this.publishedMessages.push(m);
   }
 
 
