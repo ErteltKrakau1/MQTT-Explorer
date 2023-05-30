@@ -18,6 +18,7 @@ export class MqttService {
   private receivedMessagesChanged$: Subject<MqttMessage> = new Subject();
   private publishedMessagesChanged$: Subject<MqttMessage> = new Subject<MqttMessage>();
   private clientId: string = (Math.random()).toString(36).substring(2);
+  private clientIdChanged$ : Subject<string> = new BehaviorSubject(this.clientId);
   private hosts: string[] = ['wss://test.mosquitto.org:8081/mqtt', 'wss://mqtt-dashboard.com:8884/mqtt'];
   private hostUrl: string = this.hosts[0];
   private hostUrlChanged$: Subject<string> = new Subject<string>();
@@ -52,6 +53,9 @@ export class MqttService {
 
   public getStatusMessages(): string[] {
     return this.statusMessages;
+  }
+  public getClientIdChangedObservable() : Observable<string>{
+    return this.clientIdChanged$.asObservable();
   }
 
   private addStatusMessage(m: string): void {
@@ -241,6 +245,7 @@ export class MqttService {
 
   public generateNewClientId(): void {
     this.clientId = (Math.random()).toString(36).substring(2);
+    this.clientIdChanged$.next(this.clientId);
   }
   public updateReceivedMessages(messages : MqttMessage[]){
     this.receivedMessages = messages;
