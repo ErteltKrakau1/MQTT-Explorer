@@ -6,7 +6,7 @@
         <app-topic-search [filteredTopics]="getFilteredTopics()" class="topicSearch"
                           (topicChanged$)="onTopicChosen($event)"></app-topic-search>
         <div class="spanTitle">Message</div>
-        <textarea class="payload input" (input)="onPayloadChanged($event)"></textarea>
+        <textarea placeholder="Write" class="payload input" (input)="onPayloadChanged($event)"></textarea>
         <button class="sideButtonDesign" (click)="publish()">Publish</button>
       </div>
     </div>

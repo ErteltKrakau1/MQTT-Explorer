@@ -41,7 +41,7 @@
           <div class="flexDirectionColumn">
             <span class="spanTitle">Client ID</span>
             <div class="flexDirectionRow clientIdContainer">
-              <input [disabled]="isConnected" (input)="onClientIdChanged($event)"
+              <input class="refreshInput" [disabled]="isConnected" (input)="onClientIdChanged($event)"
                      value="{{mqttService.getClientIdChangedObservable() | async}}">
               <button class="refreshButton" [disabled]="isConnected" (click)="generateNewClientId()"></button>
             </div>

@@ -18,3 +18,14 @@ h2{
   background-color: white;
   color: #009fe3;
 }
+textarea {
+  caret-color: white;
+  border: 1px solid #cccccc;
+  background: #646464;
+  color: white;
+  font-size: 20px;
+}
+textarea::placeholder {
+  color: #009fe3;
+}
+

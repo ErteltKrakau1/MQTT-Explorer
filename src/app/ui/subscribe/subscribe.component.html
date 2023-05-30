@@ -2,7 +2,7 @@
   <div class="row">
     <div class="leftContainer">
       <div class="spanTitle">Topic</div>
-      <div class="topicSearchSubscribeContainer">
+      <div  class="topicSearchSubscribeContainer">
         <app-topic-search [filteredTopics]="getFilteredTopics()" style="width: 100%;"
                           (topicChanged$)="onTopicChosen($event)"></app-topic-search>
         <button class="subscribeUnsubscribeButton sideButtonDesign" (click)="subscribe()">Subscribe</button>
