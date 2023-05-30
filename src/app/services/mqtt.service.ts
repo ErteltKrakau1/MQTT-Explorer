@@ -17,8 +17,8 @@ export class MqttService {
   private publishedMessages: MqttMessage[] = [];
   private receivedMessagesChanged$: Subject<MqttMessage> = new Subject();
   private publishedMessagesChanged$: Subject<MqttMessage> = new Subject<MqttMessage>();
-  private clientId: string;
-  private clientIdChanged$ : Subject<string> = new BehaviorSubject(this.clientId);
+  private clientId: string = "";
+  private clientIdChanged$ : Subject<string> = new BehaviorSubject("");
   private hosts: string[] = ['wss://test.mosquitto.org:8081/mqtt', 'wss://mqtt-dashboard.com:8884/mqtt'];
   private hostUrl: string = this.hosts[0];
   private hostUrlChanged$: Subject<string> = new Subject<string>();
@@ -38,17 +38,20 @@ export class MqttService {
       this.receivedMessages = data.receivedMessages || [];
       this.publishedMessages = data.publishedMessages || [];
       this.subscribedTopics = data.subscribedTopics || [];
-      this.clientId = data.clientId || this.generateClientID();
+      const id = data.clientId || this.generateClientID();
+      this.setClientId(id)
       this.hosts = data.hosts || ['wss://test.mosquitto.org:8081/mqtt', 'wss://mqtt-dashboard.com:8884/mqtt'];
       this.hostUrl = data.hostUrl || this.hosts[0];
     } else {
       this.receivedMessages = [];
       this.publishedMessages = [];
       this.subscribedTopics = [];
-      this.clientId = this.generateClientID();
+      const id = this.generateClientID();
+      this.setClientId(id)
       this.hosts = ['wss://test.mosquitto.org:8081/mqtt', 'wss://mqtt-dashboard.com:8884/mqtt'];
       this.hostUrl = this.hosts[0];
     }
+
   }
 
   public getStatusMessages(): string[] {
@@ -175,6 +178,7 @@ export class MqttService {
 
   public setClientId(id: string): void {
     this.clientId = id;
+    this.clientIdChanged$.next(id);
   }
 
   public sendMessage(topic: string, payload: string): void {
